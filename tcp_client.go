@@ -4,6 +4,7 @@ import (
 	"net"
 	"log"
 	"os"
+	"github.com/AndrineCF/is105sem03/mycrypt"
 )
 
 func main() {
@@ -11,10 +12,15 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-    
+    	
+	// vis kva som blir sendt inn
 	log.Println("os.Args[1] = ", os.Args[1])
 
- 	_, err = conn.Write([]byte(os.Args[1]))
+	kryptertMelding := mycrypt.Krypter([]rune(os.Args[1]), mycrypt.ALF_SEM03, 4)
+	log.Println("Kryptert melding: ", string(kryptertMelding))
+	
+	// skriver til server
+	_, err = conn.Write([]byte(string(kryptertMelding)))
 	if err != nil {
 		log.Fatal(err)
 	}
